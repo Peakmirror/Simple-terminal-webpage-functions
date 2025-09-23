@@ -107,8 +107,7 @@ def login():
     cursor = conn.cursor()
     
 
-    cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-    result = cursor.fetchone()
+    
 
     while True:
         conn = sqlite3.connect("users.db")
@@ -119,7 +118,7 @@ def login():
         hashed_password = hash_password(password)
         cursor.execute("SELECT password FROM users WHERE username = ?", (username,))
         result = cursor.fetchone()
-        if result and result[1] == hash_password(password):
+        if result and result[0] == hash_password(password):
             print("Login successful.")
             webbrowser.open("D:/projekt/thumbsup.webp")
             cursor.execute("UPDATE users SET last_login = strftime('%s','now') WHERE username = ?", (username,))
@@ -134,7 +133,7 @@ def login():
             elif login_attempts == 0:
                 print("Too many failed attempts. Try again in 2 minutes.")
                 time.sleep(120)
-conn.close()
+
             
 
 # Manage account function
@@ -186,7 +185,7 @@ def change_password():
     result = cursor.fetchone()
 
     if result and result[0] == hash_password(old_password):
-        with open("D:/projekt/rockyou.txt", "r", encoding="utf-8", errors="ignore") as f:
+        with open(os.path.join(os.path.dirname(__file__), "rockyou.txt"), "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
         if new_password in content:
             print("Your new password is too weak, enter a stronger password.")
