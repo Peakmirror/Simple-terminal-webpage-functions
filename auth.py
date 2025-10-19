@@ -95,8 +95,8 @@ def login():
 from email.mime.text import MIMEText
 
 def send_email(email,token):
-    sender = "henritapsi@gmail.com"
-    password = "cgbr wbqs mqvk pdda"
+    sender = "senderemail"
+    password = "code"
     reset_link = f"http://localhost:5000/reset_password?token={token}"
     msg = MIMEText(f"Click on the link to reset your password: {reset_link}")
     msg["Subject"] = "Password Reset"
@@ -148,4 +148,5 @@ def reset_password(token):
     conn.commit()
     conn.close()
     print("Password reset successful.")
+
 
